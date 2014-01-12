@@ -1,0 +1,58 @@
+			DbHelper dbHelper = new DbHelper(contexts[0]);
+			SQLiteDatabase db = dbHelper.getWritableDatabase();
+			// images表
+			ContentValues valuesImage = new ContentValues();
+			valuesImage.put("id", 4915857);
+			valuesImage
+					.put("small",
+							"http://img3.douban.com/view/movie_poster_cover/ipst/public/p2164225595.jpg");
+			valuesImage
+					.put("medium",
+							"http://img3.douban.com/view/movie_poster_cover/spst/public/p2164225595.jpg");
+			valuesImage
+					.put("large",
+							"http://img3.douban.com/view/movie_poster_cover/lpst/public/p2164225595.jpg");
+			// rating表
+			ContentValues valuesRating = new ContentValues();
+			valuesRating.put("id", 4915857);
+			valuesRating.put("max", 10);
+			valuesRating.put("average", "8.1");
+			valuesRating.put("stars", "40");
+			valuesRating.put("min", 0);
+			ContentValues valuesSubject = new ContentValues();
+			valuesSubject.put("id", 4915857);
+			valuesSubject.put("title", "神偷奶爸2");
+			valuesSubject.put("mainland_pubdate", "2014-01-10");
+			valuesSubject.put("collect_count", 103393);
+			valuesSubject.put("original_title", "Despicable Me 2");
+			valuesSubject.put("subtype", "movie");
+			valuesSubject.put("year", "2013");
+			
+			ArrayListYee<String> pubdates = new ArrayListYee<String>() ;
+			pubdates.add("2014-01-02(香港)") ;
+			pubdates.add("2014-01-03(中国大陆)") ;
+//			Log.w(TAG, ">>>>>>>>"+pubdates.toString()) ;
+			valuesSubject.put("pubdates", pubdates.toString());
+			valuesSubject
+					.put("alt", "http://movie.douban.com/subject/4915857/");
+
+			db.beginTransaction();
+			try {
+				db.insert(DbHelper.TABLE_IMAGE, null, valuesImage);
+				db.insert(DbHelper.TABLE_RATING, null, valuesRating);
+				db.insert(DbHelper.TABLE_SUBJECT, null, valuesSubject);
+				// Marks the current transaction as successful.
+				db.setTransactionSuccessful();
+			} finally {
+				db.endTransaction();
+				//查询subject类所有成员变量的sql语句
+				/*
+				 select rating.max, rating.average, rating.stars, rating.min,
+				 subject.title, subject.mainland_pubdate, images.small,
+				 images.large, images.medium, subject.collect_count,
+				 subject.original_title, subject.subtype, subject.year,
+				 subject.pubdates, subject.alt, subject.id from subject,
+				 images, rating where subject.id=images.id and
+				 subject.id=rating.id
+				*/
+			}	
